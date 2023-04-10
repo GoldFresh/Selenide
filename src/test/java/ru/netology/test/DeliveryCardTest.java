@@ -16,7 +16,7 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class DeliveryCardTest {
     LocalDate today = LocalDate.now();
-    LocalDate newDate = today.plusDays(3);
+   // LocalDate newDate = today.plusDays(3);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     @BeforeEach
@@ -28,20 +28,20 @@ public class DeliveryCardTest {
     @Test
     void shouldSendFormWithValidData() {
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(newDate));
+        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $("[data-test-id=agreement]").click();
         $(".button").click();
         $(withText("Успешно!")).shouldBe(Condition.visible, Duration.ofSeconds(15000));
         $(".notification__content")
-                .shouldHave(exactText("Встреча успешно забронирована на " + newDate.format(formatter)));
+                .shouldHave(exactText("Встреча успешно забронирована на " + today.plusDays(3).format(formatter)));
     }
 
     @Test
     void shouldSendFormWithInvalidSurname() {
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(newDate));
+        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
         $("[data-test-id=name] input").setValue("Ivanov Иван");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $("[data-test-id=agreement]").click();
@@ -52,7 +52,7 @@ public class DeliveryCardTest {
     @Test
     void shouldSendFormWithInvalidPhoneNumber() {
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(newDate));
+        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("+790344444441");
         $("[data-test-id=agreement]").click();
@@ -63,7 +63,7 @@ public class DeliveryCardTest {
     @Test
     void shouldSendFormWithInvalidCity() {
         $("[data-test-id=city] input").setValue("Азов");
-        $("[data-test-id=date] input").sendKeys(formatter.format(newDate));
+        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $("[data-test-id=agreement]").click();
@@ -85,7 +85,7 @@ public class DeliveryCardTest {
     @Test
     void shouldSendFormWithEmptyName() {
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(newDate));
+        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
         $("[data-test-id=name] input").setValue("");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $("[data-test-id=agreement]").click();
@@ -96,7 +96,7 @@ public class DeliveryCardTest {
     @Test
     void shouldSendFormWithEmptyNumber() {
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(newDate));
+        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("");
         $("[data-test-id=agreement]").click();
@@ -107,7 +107,7 @@ public class DeliveryCardTest {
     @Test
     void shouldSendFormWithoutCheckbox() {
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(newDate));
+        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $(".button").click();
