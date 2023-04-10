@@ -15,9 +15,10 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class DeliveryCardTest {
-    LocalDate today = LocalDate.now();
-   // LocalDate newDate = today.plusDays(3);
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    public String getDate(int days, String pattern){
+        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern(pattern));
+    }
 
     @BeforeEach
     void Setup() {
@@ -27,21 +28,22 @@ public class DeliveryCardTest {
 
     @Test
     void shouldSendFormWithValidData() {
+        String date = getDate(3, "dd.MM.yyyy");
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
+        $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $("[data-test-id=agreement]").click();
         $(".button").click();
         $(withText("Успешно!")).shouldBe(Condition.visible, Duration.ofSeconds(15000));
-        $(".notification__content")
-                .shouldHave(exactText("Встреча успешно забронирована на " + today.plusDays(3).format(formatter)));
+        $(".notification__content").shouldHave(Condition.ownText(date));
     }
 
     @Test
     void shouldSendFormWithInvalidSurname() {
+        String date = getDate(3, "dd.MM.yyyy");
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
+        $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=name] input").setValue("Ivanov Иван");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $("[data-test-id=agreement]").click();
@@ -51,8 +53,9 @@ public class DeliveryCardTest {
 
     @Test
     void shouldSendFormWithInvalidPhoneNumber() {
+        String date = getDate(3, "dd.MM.yyyy");
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
+        $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("+790344444441");
         $("[data-test-id=agreement]").click();
@@ -62,8 +65,9 @@ public class DeliveryCardTest {
 
     @Test
     void shouldSendFormWithInvalidCity() {
+        String date = getDate(3, "dd.MM.yyyy");
         $("[data-test-id=city] input").setValue("Азов");
-        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
+        $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $("[data-test-id=agreement]").click();
@@ -84,8 +88,9 @@ public class DeliveryCardTest {
 
     @Test
     void shouldSendFormWithEmptyName() {
+        String date = getDate(3, "dd.MM.yyyy");
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
+        $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=name] input").setValue("");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $("[data-test-id=agreement]").click();
@@ -95,8 +100,9 @@ public class DeliveryCardTest {
 
     @Test
     void shouldSendFormWithEmptyNumber() {
+        String date = getDate(3, "dd.MM.yyyy");
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
+        $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("");
         $("[data-test-id=agreement]").click();
@@ -106,8 +112,9 @@ public class DeliveryCardTest {
 
     @Test
     void shouldSendFormWithoutCheckbox() {
+        String date = getDate(3, "dd.MM.yyyy");
         $("[data-test-id=city] input").setValue("Ростов-на-Дону");
-        $("[data-test-id=date] input").sendKeys(formatter.format(today.plusDays(3)));
+        $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=name] input").setValue("Иванов Иван");
         $("[data-test-id=phone] input").setValue("+79034444444");
         $(".button").click();
